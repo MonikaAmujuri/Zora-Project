@@ -1,0 +1,115 @@
+.orders-page {
+  padding: 30px;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.orders-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th {
+  text-align: left;
+  font-size: 14px;
+  color: #666;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.orders-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 14px;
+}
+
+.items-cell div {
+  font-size: 13px;
+  color: #444;
+}
+
+.status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.shipped {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.status.delivered {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+}
+
+.empty-text {
+  text-align: center;
+  padding: 30px;
+  color: #999;
+}
+/* ===== STATUS SELECT ===== */
+
+.status-select {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 14px;
+}
+
+/* Different colors based on status */
+
+.status-select.pending {
+  background-color: #f4e6c3;
+  color: #8a6d1d;
+}
+
+.status-select.shipped {
+  background-color: #d6e9ff;
+  color: #1d4ed8;
+}
+
+.status-select.delivered {
+  background-color: #d4f5d4;
+  color: #15803d;
+}
+
+.status-select.cancelled {
+  background-color: #ffd6d6;
+  color: #b91c1c;
+}
+
+/* Hover effect */
+.status-select:hover {
+  transform: scale(1.05);
+}

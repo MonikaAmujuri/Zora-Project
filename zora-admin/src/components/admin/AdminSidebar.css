@@ -1,0 +1,128 @@
+.admin-sidebar {
+  width: 240px;
+  background: #0f0f0f;
+  color: white;
+  transition: width 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* ok */
+}
+
+/* COLLAPSED */
+.admin-sidebar.collapsed {
+  width: 70px;
+}
+
+/* TOP */
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px;
+}
+
+.admin-sidebar.collapsed .sidebar-top {
+  justify-content: center;
+}
+
+/* TOGGLE */
+.collapse-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* LINKS */
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+/* LINK ITEM */
+.sidebar-links a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  color: #ccc;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+/* ICONS — ALWAYS VISIBLE */
+.sidebar-links a svg {
+  font-size: 20px;
+  min-width: 20px;
+}
+
+/* CENTER ICONS WHEN COLLAPSED */
+.admin-sidebar.collapsed .sidebar-links a {
+  justify-content: center;
+  padding: 14px 0;
+}
+
+/* HIDE TEXT ONLY */
+.admin-sidebar.collapsed .sidebar-links span {
+  display: none;
+}
+
+/* ACTIVE / HOVER */
+.sidebar-links a.active,
+.sidebar-links a:hover {
+  background: #e63946;
+  color: white;
+  border-radius: 8px;
+}
+.admin-logo {
+  text-decoration: none;
+  color: white;
+}
+.admin-sidebar {
+  width: 240px;
+  background: #0f0f0f;
+  color: white;
+  transition: width 0.3s ease;
+}
+
+.admin-sidebar.collapsed {
+  width: 80px;
+}
+
+/* Top */
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px;
+}
+
+/* Links */
+.sidebar-links a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  color: #ccc;
+  text-decoration: none;
+  border-radius: 10px;
+  margin: 6px 10px;
+}
+
+.sidebar-links a:hover {
+  background: #1f1f1f;
+  color: white;
+}
+
+.sidebar-links a.active {
+  background: #e63946;
+  color: white;
+}
+
+/* Hide text when collapsed */
+.admin-sidebar.collapsed span {
+  display: none;
+}

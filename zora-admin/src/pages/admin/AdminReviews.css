@@ -1,0 +1,72 @@
+.admin-reviews-page {
+  padding: 24px;
+}
+
+.admin-reviews-page h2 {
+  margin-bottom: 20px;
+}
+
+.admin-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.admin-review-card {
+  display: flex;
+  gap: 14px;
+  background: #fff;
+  padding: 14px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.admin-review-card img {
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.review-info h4 {
+  margin: 0;
+}
+
+.review-user {
+  font-size: 14px;
+  color: #555;
+}
+
+.stars {
+  color: #f4b400;
+  margin: 4px 0;
+}
+
+.comment {
+  font-style: italic;
+  font-size: 14px;
+}
+
+.empty-text {
+  text-align: center;
+  color: #888;
+}
+.product-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.review-product-img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.gold {
+  background: linear-gradient(135deg, #f6d365, #fda085);
+}
+
+.purple {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}

@@ -1,0 +1,38 @@
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+}
+
+.admin-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* 🔥 FIXED LOGOUT BUTTON */
+.logout-btn {
+  background: #e63946;
+  color: white;
+  border: none;
+
+  width: auto !important;
+  max-width: fit-content;
+  flex: 0 0 auto;
+
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #d62839;
+  color: #ffffff;
+}
