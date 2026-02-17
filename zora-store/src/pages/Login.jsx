@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link} from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { auth } from "../firebase";
+import {
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "firebase/auth";
 
 import "./Login.css";
 
@@ -10,7 +15,11 @@ function Login() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const { login } = useAuth();
-
+    const [loginMode, setLoginMode] = useState("password");
+    const [phone, setPhone] = useState("");
+    const [otp, setOtp] = useState("");
+    const [confirmationResult, setConfirmationResult] = useState(null);
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
@@ -49,37 +58,137 @@ function Login() {
             setError("Server error. Please try again.");
         }
     };
+    const sendOTP = async () => {
+        try {
+            const recaptcha = new RecaptchaVerifier(
+                auth,
+                "recaptcha-container",
+                { size: "invisible" }
+            );
+
+            const result = await signInWithPhoneNumber(
+                auth,
+                phone,
+                recaptcha
+            );
+
+            setConfirmationResult(result);
+            alert("OTP sent successfully!");
+        } catch (err) {
+            console.error(err);
+            alert("Failed to send OTP");
+        }
+    };
+    const verifyOTP = async () => {
+        try {
+            const result = await confirmationResult.confirm(otp);
+
+            const user = result.user;
+            const idToken = await user.getIdToken();
+
+            console.log("Firebase Token:", idToken);
+
+            alert("Login successful!");
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+            alert("Invalid OTP");
+        }
+    };
     return (
         <div className="login-page">
             <form className="login-card" onSubmit={handleSubmit}>
                 <h1 className="brand">ZORA</h1>
                 <p className="subtitle">Welcome back 👋</p>
+                
 
                 <h2>Login</h2>
+                {/* 🔄 Login Mode Toggle */}
+                <div className="login-toggle">
+                    <button
+                        type="button"
+                        className={loginMode === "password" ? "active" : ""}
+                        onClick={() => setLoginMode("password")}
+                    >
+                        Password
+                    </button>
+
+                    <button
+                        type="button"
+                        className={loginMode === "otp" ? "active" : ""}
+                        onClick={() => setLoginMode("otp")}
+                    >
+                        OTP
+                    </button>
+                </div>
 
                 {error && <p className="error">{error}</p>}
 
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
+                {/* PASSWORD LOGIN */}
+                {loginMode === "password" && (
+                    <>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <p className="forgot-link">
-                    <Link to="/forgot-password">Forgot password?</Link>
-                </p>
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
 
+                        <p className="forgot-link">
+                            <Link to="/forgot-password">Forgot password?</Link>
+                        </p>
 
-                <button type="submit">Login</button>
+                        <button type="submit">Login</button>
+                    </>
+                )}
+                {/* OTP LOGIN */}
+                {loginMode === "otp" && (
+                    <>
+                        <input
+                            type="text"
+                            placeholder="+91XXXXXXXXXX"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            required
+                        />
+
+                        <button
+                            type="button"
+                            onClick={sendOTP}
+                        >
+                            Send OTP
+                        </button>
+
+                        {confirmationResult && (
+                            <>
+                                <input
+                                    type="text"
+                                    placeholder="Enter OTP"
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={verifyOTP}
+                                >
+                                    Verify OTP
+                                </button>
+                            </>
+                        )}
+
+                        <div id="recaptcha-container"></div>
+                    </>
+                )}
                 <p className="switch-auth">
                     Don’t have an account? <Link to="/signup">Sign up</Link>
                 </p>
