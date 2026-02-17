@@ -1,0 +1,91 @@
+/* SECTION */
+.recent-section {
+  margin: 80px auto;
+  max-width: 1300px;
+  padding: 0 20px;
+}
+
+/* GRID */
+.recent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 28px;
+}
+
+/* CARD */
+.recent-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recent-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.1);
+}
+
+/* IMAGE */
+.recent-img-wrap {
+  position: relative;
+}
+
+.recent-img-wrap img {
+  width: 100%;
+  height: 240px;        /* 🔑 KEY FIX */
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* WISHLIST */
+.wishlist-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.wishlist-btn.active svg {
+  color: #e63946;
+}
+
+/* INFO */
+.recent-info {
+  padding: 14px;
+  text-align: center;
+}
+
+.recent-info h4 {
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.recent-price {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+/* BUTTON */
+.recent-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.recent-btn:hover {
+  background: #e63946;
+}

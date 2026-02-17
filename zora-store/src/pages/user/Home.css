@@ -1,0 +1,228 @@
+.home {
+  padding: 40px;
+}
+
+.categories {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.categories h2 {
+  margin-bottom: 24px;
+  font-size: 26px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.category-card {
+  background: #f7e3e3;
+  border-radius: 18px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  color: #ec3847;
+}
+
+.section-divider {
+  margin: 60px auto 30px;
+  width: 80%;
+  height: 1px;
+  background: #eee;
+}
+
+.collections-section {
+  margin: 80px 0;
+  padding: 60px 0;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    #fff7fc,
+    #fff6fb
+  );
+}
+
+
+.section-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 30px;
+}
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 70px 0 40px;
+  color: #333;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #ff9db2,
+    transparent
+  );
+}
+
+.section-divider span {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* 🌸 FESTIVAL FEATURED BANNER */
+
+.festival-banner {
+  margin: 80px auto;
+  max-width: 1200px;
+  padding: 60px 40px;
+  border-radius: 28px;
+  background: linear-gradient(
+    135deg,
+    #fde2e4,
+    #ffeaf9,
+    #fad0c4
+  );
+  box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.festival-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top right,
+    rgba(255,255,255,0.6),
+    transparent 60%
+  );
+}
+
+.festival-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.festival-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.7);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+.festival-content h2 {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.festival-content h2 span {
+  color: #d6336c;
+}
+
+.festival-content p {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 30px;
+}
+
+.festival-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.festival-btn {
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.festival-btn.primary {
+  background: #000;
+  color: #fff;
+}
+
+.festival-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+.festival-btn.outline {
+  border: 2px solid #000;
+  color: #000;
+  background: transparent;
+}
+
+.festival-btn.outline:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* 🌿 BRAND STORY */
+
+.brand-story {
+  margin: 120px 0;
+  padding: 80px 20px;
+  background: linear-gradient(
+    180deg,
+    #fee8f4,
+    #fff0fa
+  );
+}
+
+.brand-story-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.brand-story h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.brand-story p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #555;
+}
+
+.brand-highlight {
+  margin-top: 18px;
+  font-weight: 600;
+  color: #c25c74;
+  letter-spacing: 0.4px;
+}
+

@@ -1,0 +1,20 @@
+.user-navbar {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+
+  padding: 14px 0;
+  background: #E8C6C9;
+  border-bottom: 1px solid #f4f0f0;
+}
+
+.user-navbar a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #222;
+  position: relative;
+}
+
+.user-navbar a:hover {
+  color: #7A2E3A;
+}

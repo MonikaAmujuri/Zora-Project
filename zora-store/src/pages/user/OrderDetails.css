@@ -1,0 +1,121 @@
+/* Page background */
+.order-details-page {
+  min-height: 100vh;
+  background: #fff7f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px;
+}
+
+.order-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Main card */
+.order-card {
+  width: 100%;
+  max-width: 700px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Order meta */
+.order-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #444;
+}
+
+/* ===== ORDER ITEMS ===== */
+.order-item {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Item info */
+.order-info h4 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Price row */
+.order-price {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+/* Final price */
+.final-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+}
+
+/* Original price */
+.original-price {
+  font-size: 14px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+/* Saved text */
+.saved-text {
+  font-size: 13px;
+  color: #e11d48;
+  margin-top: 4px;
+}
+
+/* ===== TOTAL ===== */
+.order-total {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed #e5e5e5;
+  text-align: right;
+}
+
+.order-total h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ===== ADDRESS ===== */
+.order-address {
+  margin-top: 24px;
+  background: #fff7f9;
+  padding: 18px;
+  border-radius: 14px;
+}
+
+.order-address h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.order-address p {
+  font-size: 14px;
+  color: #444;
+  margin: 2px 0;
+}
+
+/* Empty text */
+.empty-text {
+  text-align: center;
+  margin-top: 60px;
+  font-size: 16px;
+  color: #777;
+}

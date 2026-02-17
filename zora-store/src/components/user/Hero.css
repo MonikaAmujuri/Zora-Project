@@ -1,0 +1,119 @@
+.hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  padding: 0 8%;
+  background-image: url("/images/hero-saree.jpg");
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-color: #D9C2B6;
+  overflow: hidden;
+}
+
+/* Soft luxury overlay for text readability */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  
+}
+
+/* Text container */
+.hero-content {
+  position: relative;
+  max-width: 520px;
+  z-index: 1;
+}
+
+/* Small elegant line */
+.hero-subtitle {
+  display: inline-block;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #eeeded;
+  margin-bottom: 12px;
+}
+
+/* Main heading */
+.hero-title {
+  font-size: 3.2rem;
+  font-weight: 600;
+  color: #1f1f1f;
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+
+/* Description */
+.hero-text {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+/* Buttons */
+.hero-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.hero-btn {
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+/* Primary CTA */
+.hero-btn.primary {
+  background: #000;
+  color: #fff;
+}
+
+.hero-btn.primary:hover {
+  background: #222;
+}
+
+/* Secondary CTA */
+.hero-btn.secondary {
+  border: 1px solid #000;
+  color: #000;
+}
+
+.hero-btn.secondary:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero {
+    min-height: 70vh;
+    padding: 0 6%;
+    background-position: center;
+  }
+
+  .hero-title {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    text-align: center;
+  }
+
+  .hero-content {
+    margin: 0 auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,385 @@
+/* PAGE */
+.saree-page {
+  padding: 24px 40px;
+
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+/* GRID */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+/* CARD */
+.product-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* IMAGE */
+.product-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/* INFO */
+.product-info {
+  padding: 16px;
+  text-align: center;
+}
+
+.product-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.product-info p {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* PRICE */
+.price-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.discount {
+  background: #ff4d6d;
+  color: #fff;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+/* BUTTON */
+.add-to-cart {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background: #222;
+}
+
+.add-to-cart.added {
+  background: #2ecc71;
+  color: #fff;
+}
+
+/* EMPTY STATE */
+.empty-text {
+  font-size: 16px;
+  color: #888;
+  text-align: center;
+  margin-top: 60px;
+}
+/* WISHLIST BUTTON */
+.wishlist-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.wishlist-btn svg {
+  font-size: 18px;
+  color: #333;
+}
+
+.wishlist-btn:hover {
+  background: #ff4d6d;
+}
+
+.wishlist-btn:hover svg {
+  color: #fff;
+}
+
+.wishlist-btn.active {
+  background: #ff4d6d;
+}
+
+.wishlist-btn.active svg {
+  color: #fff;
+}
+
+/* Ensure card is relative */
+.product-card {
+  position: relative;
+}
+.qty-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.qty-control button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.qty-control span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ===== Shared Saree Listing Background ===== */
+.listing-section {
+  background: linear-gradient(
+    to bottom,
+    #faf7f5 0%,
+    #ffffff 60%
+  );
+  padding: 40px 60px 80px;
+  border-radius: 24px;
+  margin: 20px auto 60px;
+  max-width: 1400px;
+}
+
+/* ===== Title ===== */
+.listing-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.page-title {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #777;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+/* ===== Divider ===== */
+.title-divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #d4a373, #b08968);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.final-price {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+}
+
+.original-price {
+  font-size: 14px;
+  text-decoration: line-through;
+  color: #999;
+}
+
+.discount-badge {
+  background: #ffe5e8;
+  color: #d6002f;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+
+
+.dress-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 25px 0 40px;
+  flex-wrap: wrap;
+}
+
+.dress-tabs button {
+  padding: 10px 22px;
+  border-radius: 30px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dress-tabs button:hover,
+.dress-tabs button.active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+.subcategory-tabs {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0 30px;
+  flex-wrap: wrap;
+}
+
+.subcategory-tabs button {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.subcategory-tabs button:hover {
+  background: #f5f5f5;
+}
+
+.subcategory-tabs button.active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+.listing-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 30px;
+}
+
+.filter-sidebar {
+  background: linear-gradient(
+    to bottom,
+    #faf7f5 0%,
+    #fcf2f8 60%
+  );
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.filter-title {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.filter-section {
+  margin-bottom: 24px;
+}
+
+.filter-section h5 {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.color-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.color-dot.red { background: red; }
+.color-dot.blue { background: blue; }
+.color-dot.green { background: green; }
+.color-dot.black { background: black; }
+.color-dot.pink { background: pink; }
+.color-dot.white { background: white; }
+
+.clear-filter {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f5f5f5;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+.wishlist-btn {
+  color: #999;
+  transition: all 0.2s ease;
+}
+
+.wishlist-btn.active {
+  color: #e63946;
+  transform: scale(1.1);
+}
+.wishlist-btn {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.wishlist-btn.active {
+  color: #e63946;
+  transform: scale(1.1);
+}
