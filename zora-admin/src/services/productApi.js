@@ -9,34 +9,50 @@ export const fetchProducts = async () => {
 
 /* ADD PRODUCT */
 export const addProduct = async (product) => {
-  const res = await fetch(API_URL, {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("http://localhost:5000/api/products", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(product),
   });
 
   if (!res.ok) throw new Error("Failed to add product");
+
   return res.json();
 };
 
-/* UPDATE PRODUCT */
-export const updateProduct = async (id, product) => {
-  const res = await fetch(`${API_URL}/${id}`, {
+export const updateProduct = async (id, productData) => {
+  const token = localStorage.getItem("token");  // or wherever you store it
+
+  const res = await fetch(`http://localhost:5000/api/products/${id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(product),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(productData),
   });
 
-  if (!res.ok) throw new Error("Failed to update product");
   return res.json();
 };
 
 /* DELETE PRODUCT */
 export const deleteProduct = async (id) => {
-  const res = await fetch(`${API_URL}/${id}`, {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`http://localhost:5000/api/products/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!res.ok) throw new Error("Failed to delete product");
-  return true;
+
+  return res.json();
 };
+

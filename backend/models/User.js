@@ -12,12 +12,27 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
-      unique: true
+      required: function () {
+        return !this.phone; // email required only if phone not provided
+      },
+      unique: true,
+      sparse: true,
+      default: undefined  
+    },
+
+    phone: {
+      type: String,
+      required: function () {
+        return !this.email; // phone required only if email not provided
+      },
+      unique: true,
+      sparse: true
     },
     password: {
       type: String,
-      required: true
+      required: function () {
+        return this.email != null;
+      }
     },
     role: {
       type: String,

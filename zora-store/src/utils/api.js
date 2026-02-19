@@ -1,7 +1,6 @@
-// src/utils/api.js
-
 export const authFetch = async (url, options = {}) => {
-  const token = localStorage.getItem("token");
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const token = userInfo?.token;
 
   const res = await fetch(url, {
     ...options,

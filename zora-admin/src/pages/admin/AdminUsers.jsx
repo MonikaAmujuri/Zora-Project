@@ -133,10 +133,10 @@ const updateRole = async (id, newRole) => {
             <tbody>
               {users.map(user => (
                 <tr key={user._id}>
-                  <td>{user.email}</td>
+                  <td>{user.email || user.phone}</td>
                   <td>
-                    <span className={user.isOnline ? "online-badge" : "offline-badge"}>
-                      {user.isOnline ? "Logged In" : "Logged Out"}
+                    <span className={user?.isOnline ? "online-badge" : "offline-badge"}>
+                      {user?.isOnline ? "Logged In" : "Logged Out"}
                     </span>
                   </td>
                   <td>

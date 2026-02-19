@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("userInfo");
 
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -18,23 +18,37 @@ export const AuthProvider = ({ children }) => {
 
   const login = (userData) => {
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("userInfo", JSON.stringify(userData));
   };
 
   const updateUser = (updatedUser) => {
-    localStorage.setItem("user", JSON.stringify(updatedUser));
+    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
     setUser(updatedUser);
   };
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+  const logout = async () => {
+    try {
+      const storedUser = JSON.parse(localStorage.getItem("userInfo"));
+
+      if (storedUser?.token) {
+        await fetch("http://localhost:5000/api/auth/logout", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${storedUser.token}`,
+          },
+        });
+      }
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+
+    localStorage.removeItem("userInfo");
     setUser(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, updateUser, loading }}
+      value={{ user, setUser, login, logout, updateUser, loading }}
     >
       {children}
     </AuthContext.Provider>

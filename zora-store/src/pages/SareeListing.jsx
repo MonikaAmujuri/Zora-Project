@@ -144,6 +144,7 @@ function SareeListing() {
         : updated.add(productId);
       return updated;
     });
+    console.log("Product ID being sent:", productId);
 
     try {
       await fetch("http://localhost:5000/api/wishlist/toggle", {

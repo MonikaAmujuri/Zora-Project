@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
 import { authFetch } from "../../utils/api";
 import "./AdminProfile.css";
+import { useAdmin } from "../../context/AdminContext";
 
 function AdminProfile() {
-  const { logout } = useAuth();
+  const { logout } = useAdmin();
 
   const [admin, setAdmin] = useState({
     name: "",

@@ -1,55 +1,59 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import { authFetch } from "../utils/api";
 
-const AuthContext = createContext();
+const AdminContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [role, setRole] = useState(
-    localStorage.getItem("role")
-  );
+export const AdminProvider = ({ children }) => {
+  const [admin, setAdmin] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (email, password) => {
-  // 🔐 ADMIN LOGIN
-  if (email === "admin@zora.com" && password === "admin123") {
-    setRole("admin");
-    localStorage.setItem("role", "admin");
-    return "admin";
-  }
+  useEffect(() => {
+    const checkAdminAuth = async () => {
+      try {
+        const res = await authFetch(
+          "http://localhost:5000/api/auth/me",
+          { credentials: "include" }
+        );
 
-  // 👤 USER LOGIN
-  const login = async (email, password) => {
-  const res = await fetch("http://localhost:5000/api/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
-  });
+        if (res.ok) {
+          const data = await res.json();
 
-  if (!res.ok) {
-    throw new Error("Invalid credentials");
-  }
+          // 🔥 Only allow admin
+          if (data.role === "admin") {
+            setAdmin(data);
+          }
+        }
+      } catch (err) {
+        console.log("Admin auth check failed");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const data = await res.json();
+    checkAdminAuth();
+  }, []);
 
-  // ✅ SAVE
-  localStorage.setItem("token", data.token);
-  localStorage.setItem("user", JSON.stringify(data.user));
+  const login = (adminData) => {
+    setAdmin(adminData);
+  };
 
-  setUser(data.user);
+  const logout = async () => {
+    await authFetch("http://localhost:5000/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
 
-  // ✅ RETURN USER
-  return data.user;
-}
-};
-
-  const logout = () => {
-    setRole(null);
-    localStorage.removeItem("role");
+    setAdmin(null);
+    localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ role, login, logout }}>
+    <AdminContext.Provider
+      value={{ admin, login, logout, loading }}
+    >
       {children}
-    </AuthContext.Provider>
+    </AdminContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAdmin = () => useContext(AdminContext);

@@ -2,7 +2,6 @@ import express from "express";
 import Product from "../models/Product.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import adminMiddleware from "../middleware/adminMiddleware.js";
-import { addProduct, updateProduct } from "../../zora-store/src/services/productApi.js";
 import { deleteProduct } from "../../zora-admin/src/services/productApi.js";
 
 const router = express.Router();
@@ -45,22 +44,22 @@ router.get("/:id", async (req, res) => {
 
 
 /* ADD PRODUCT */
-router.post("/", authMiddleware, adminMiddleware, addProduct, async (req, res) => {
+router.post("/", authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    console.log("Incoming body:", req.body); // 👈 ADD THIS
+    console.log("Incoming body:", req.body);
 
     const product = new Product(req.body);
     const saved = await product.save();
 
     res.status(201).json(saved);
   } catch (error) {
-    console.error("Add product error:", error.message); // 👈 IMPORTANT
+    console.error("Add product error:", error.message);
     res.status(400).json({ message: error.message });
   }
 });
 
 /* DELETE PRODUCT */
-router.delete("/:id", authMiddleware, adminMiddleware, deleteProduct, async (req, res) => {
+router.delete("/:id", authMiddleware, adminMiddleware,  async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
     res.json({ message: "Product deleted" });
@@ -70,16 +69,27 @@ router.delete("/:id", authMiddleware, adminMiddleware, deleteProduct, async (req
 });
 
 /* UPDATE PRODUCT */
-router.put("/:id", authMiddleware, adminMiddleware, updateProduct, async (req, res) => {
+router.put("/:id", authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const updated = await Product.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    res.json(updated);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    product.name = req.body.name || product.name;
+    product.price = req.body.price || product.price;
+    product.description = req.body.description || product.description;
+    product.category = req.body.category || product.category;
+    product.countInStock = req.body.countInStock || product.countInStock;
+
+    const updatedProduct = await product.save();
+
+    res.status(200).json(updatedProduct);
+
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 

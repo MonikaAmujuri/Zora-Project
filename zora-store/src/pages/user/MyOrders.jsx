@@ -1,6 +1,7 @@
 import { useEffect, useState, useNavigate} from "react";
 import { fetchUserOrders } from "../../services/orderApi";
 import { useAuth } from "../../context/AuthContext";
+import { authFetch } from "../../utils/api";
 import { Link } from "react-router-dom";
 import UserHeader from "../../components/user/UserHeader";
 import "./MyOrders.css";
@@ -22,20 +23,25 @@ function MyOrders() {
   }, [user, loading]);
 
   const fetchOrders = async () => {
-    try {
-      const res = await fetch(
-        `http://localhost:5000/api/orders/user/${user.email}`
-      );
-      const data = await res.json();
-      setOrders(data);
-    } catch (err) {
-      console.error("Failed to fetch orders", err);
-    }
-  };
+  try {
+    const identifier = user.email || user.phone;
 
-  if (loading) {
-    return <p>Loading...</p>;
+    console.log("Fetching orders for:", identifier);
+
+    const res = await authFetch(
+      `http://localhost:5000/api/orders/user/${identifier}`
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch orders");
+    }
+
+    const data = await res.json();
+    setOrders(data);
+  } catch (err) {
+    console.error("Failed to fetch orders", err);
   }
+};
 
     const cancelOrder = async (orderId) => {
         if (!window.confirm("Cancel this order?")) return;

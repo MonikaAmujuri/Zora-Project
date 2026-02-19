@@ -1,23 +1,29 @@
+import { authFetch } from "../utils/api";
+
 const API_URL = "http://localhost:5000/api/orders";
 
 /* GET TOKEN HELPER */
 const getAuthHeaders = () => {
-  const token = localStorage.getItem("token");
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const token = userInfo?.token;
+
   return {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+    Authorization: token ? `Bearer ${token}` : "",
   };
 };
 
 /* CREATE ORDER */
-export const createOrder = async (order) => {
-  const res = await fetch(API_URL, {
+export const createOrder = async (orderData) => {
+  const res = await authFetch("http://localhost:5000/api/orders", {
     method: "POST",
-    headers: getAuthHeaders(),   // ✅ FIXED
-    body: JSON.stringify(order),
+    body: JSON.stringify(orderData),
   });
 
-  if (!res.ok) throw new Error("Failed to create order");
+  if (!res.ok) {
+    throw new Error("Failed to create order");
+  }
+
   return res.json();
 };
 

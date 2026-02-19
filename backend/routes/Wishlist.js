@@ -36,6 +36,9 @@ router.post("/toggle", protect, async (req, res) => {
     wishlist.items.push({ product: productId });
   }
 
+  console.log("User ID:", req.user?._id);
+  console.log("Product ID:", productId);
+
   await wishlist.save();
   res.json({ count: wishlist.items.length });
 });

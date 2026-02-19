@@ -13,6 +13,7 @@ function UserHeader() {
   const [searchTerm, setSearchTerm] = useState("");
   const [wishlistCount, setWishlistCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const { user, logout } = useAuth();
 
@@ -155,7 +156,9 @@ useEffect(() => {
 
               {open && (
                 <div className="account-dropdown">
-                  <p className="user-email">{user.email}</p>
+                  <p className="user-identity">
+                    {userInfo?.email || userInfo?.phone}
+                  </p>
                   <Link to="/my-orders">My Orders</Link>
                   <Link to="/profile">My Profile</Link>
 

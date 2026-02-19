@@ -1,29 +1,53 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAdmin } from "../../context/AdminContext";
 import { authFetch } from "../../utils/api";
 import "./AdminHeader.css";
 
 function AdminHeader({ title = "Admin Dashboard" }) {
-  const { logout } = useAuth();
+  const { admin, logout } = useAdmin();  // ✅ use AdminContext
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-  await authFetch("http://localhost:5000/api/auth/logout", {
-    method: "POST",
-  });
+    try {
+      await authFetch("http://localhost:5000/api/auth/logout", {
+        method: "POST",
+      });
+      localStorage.removeItem("token");
+      localStorage.removeItem("admin");
+    } catch (err) {
+      console.log("Logout API failed");
+    }
 
-  localStorage.removeItem("token");
-
-  navigate("/", { replace: true });
-};
+    logout(); // ✅ clear admin context + localStorage
+    navigate("/", { replace: true });
+  };
 
   return (
     <header className="admin-header">
       <h2>{title}</h2>
 
+      {admin && (
+        <div className="admin-info">
+          <div className="admin-avatar">
+            {(admin.name || admin.email || admin.phone)
+              ?.charAt(0)
+              .toUpperCase()}
+          </div>
+
+          <div className="admin-details">
+            <p className="admin-name">
+              {admin.name || "Admin"}
+            </p>
+            <p className="admin-contact">
+              {admin.email || admin.phone}
+            </p>
+          </div>
+        </div>
+      )}
+
       <button onClick={handleLogout} className="logout-btn">
-      Logout
-    </button>
+        Logout
+      </button>
     </header>
   );
 }

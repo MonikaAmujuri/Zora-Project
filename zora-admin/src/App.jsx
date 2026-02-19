@@ -4,6 +4,7 @@ import Login from "./pages/admin/Login";
 import AdminLayout from "./layouts/AdminLayout";
 import AdminRoute from "./routes/AdminRoute";
 
+
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminUsers from "./pages/admin/AdminUsers";
@@ -17,8 +18,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        
 
         <Route path="/" element={<Login />} />
+        <Route path="/admin/login" element={<Login />} />
 
         <Route
           path="/admin"
@@ -27,6 +30,7 @@ function App() {
               <AdminLayout />
             </AdminRoute>
           }
+          
         >
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="orders" element={<AdminOrders />} />

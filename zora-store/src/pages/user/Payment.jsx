@@ -57,6 +57,7 @@ function Payment() {
   /* PLACE ORDER */
 
 const placeOrder = async () => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   console.log("PAYMENT PAYLOAD:", {
   userId: user._id,
   method: selectedPayment.toUpperCase(),
@@ -91,7 +92,7 @@ const placeOrder = async () => {
 
     /* 2️⃣ CREATE ORDER */
     const newOrder = {
-  userEmail: user.email, // ✅ REQUIRED FIELD
+  userEmail: userInfo.email || userInfo.phone, // ✅ REQUIRED FIELD
   items: cart.map(item => ({
     productId: item.id,
     name: item.name,

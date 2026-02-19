@@ -15,6 +15,7 @@ function Login() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const { login } = useAuth();
+    const { user, setUser } = useAuth();
     const [loginMode, setLoginMode] = useState("password");
     const [phone, setPhone] = useState("");
     const [otp, setOtp] = useState("");
@@ -40,11 +41,16 @@ function Login() {
 
             console.log("LOGIN RESPONSE:", data); // 🔍 DEBUG
 
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            setUser(data);
+
             // 🔥 MUST exist
             if (!data.token) {
                 console.error("Token missing from backend!");
                 return;
             }
+
+            
 
             // 🔥 STORE TOKEN
             localStorage.setItem("token", data.token);
@@ -82,13 +88,31 @@ function Login() {
     const verifyOTP = async () => {
         try {
             const result = await confirmationResult.confirm(otp);
+            const firebaseUser = result.user;
 
-            const user = result.user;
-            const idToken = await user.getIdToken();
+            // 🔥 Get Firebase ID token
+            const idToken = await firebaseUser.getIdToken();
 
-            console.log("Firebase Token:", idToken);
+            // 🔥 Send token to backend
+            const res = await fetch("http://localhost:5000/api/auth/firebase-login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idToken }),
+            });
 
-            alert("Login successful!");
+            const data = await res.json();
+
+            if (!res.ok) {
+                alert("Backend login failed");
+                return;
+            }
+
+            localStorage.setItem("userInfo", JSON.stringify(data));
+
+            // 🔥 Save user in AuthContext
+            login(data, data.token);
+
+            // 🔥 Navigate properly
             navigate("/");
         } catch (err) {
             console.error(err);
