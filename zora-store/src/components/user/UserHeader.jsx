@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { authFetch } from "../../utils/api";
 import logo from "../../assets/zora-logo.png";
+import { useLocation } from "react-router-dom";
 import "./UserHeader.css";
 
 function UserHeader() {
@@ -18,16 +19,30 @@ function UserHeader() {
   const { user, logout } = useAuth();
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  const search = params.get("search");
+
+  if (search) {
+    setSearchTerm(search);
+    setShowSearch(true); // 🔥 keep search open
+  }
+}, [location]);
 
   const handleSearch = (value) => {
-    setSearchTerm(value);
+  setSearchTerm(value);
+  const trimmed = value.trim();
 
-    if (value.trim()) {
-      navigate(`/products/all?search=${encodeURIComponent(value)}`);
-    } else {
-      navigate("/");
-    }
-  };
+  if (trimmed.length >= 4) {
+    navigate(`/products/all?search=${encodeURIComponent(trimmed)}`);
+  }
+
+  if (trimmed.length === 0) {
+    navigate("/");
+  }
+};
 
   // 🔁 Read wishlist count
   const fetchWishlistCount = async () => {
@@ -157,7 +172,7 @@ useEffect(() => {
               {open && (
                 <div className="account-dropdown">
                   <p className="user-identity">
-                    {userInfo?.email || userInfo?.phone}
+                    {userInfo?.name || userInfo?.phone}
                   </p>
                   <Link to="/my-orders">My Orders</Link>
                   <Link to="/profile">My Profile</Link>

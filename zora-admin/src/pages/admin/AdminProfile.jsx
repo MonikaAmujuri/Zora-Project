@@ -4,17 +4,16 @@ import "./AdminProfile.css";
 import { useAdmin } from "../../context/AdminContext";
 
 function AdminProfile() {
-  const { logout } = useAdmin();
+  const { logout, login } = useAdmin();
 
   const [admin, setAdmin] = useState({
     name: "",
-    email: "",
+    phone: "",
     role: "",
   });
 
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
 
   /* 🔥 FETCH ADMIN PROFILE */
   const fetchProfile = async () => {
@@ -24,6 +23,7 @@ function AdminProfile() {
       );
       const data = await res.json();
       setAdmin(data);
+      setName(data.name);
     } catch (error) {
       console.error("Profile fetch error:", error);
     }
@@ -33,38 +33,36 @@ function AdminProfile() {
     fetchProfile();
   }, []);
 
-  /* 🔥 UPDATE PASSWORD */
-  const handleUpdatePassword = async () => {
-    if (!newPassword || newPassword !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-
+  /* 🔥 UPDATE NAME */
+  const handleUpdateProfile = async () => {
     try {
       const res = await authFetch(
         "http://localhost:5000/api/admin/profile",
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            currentPassword,
-            password: newPassword,
-          }),
+          body: JSON.stringify({ name }),
         }
       );
 
+      const data = await res.json();
+
       if (!res.ok) {
-        alert("Password update failed");
+        setMessage("Update failed");
         return;
       }
+      console.log("Update response:", data);
 
-      alert("Password updated successfully");
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
+      // Update token + context
+      localStorage.setItem("token", data.token);
+      login(data);
+
+      setAdmin(data);
+      setMessage("Profile updated successfully");
 
     } catch (error) {
-      console.error("Password update error:", error);
+      console.error("Update error:", error);
+      setMessage("Something went wrong");
     }
   };
 
@@ -77,68 +75,50 @@ function AdminProfile() {
         {/* PROFILE HEADER */}
         <div className="profile-header">
           <div className="avatar">
-            {admin.name ? admin.name.charAt(0).toUpperCase() : "A"}
+            {name ? name.charAt(0).toUpperCase() : "A"}
           </div>
           <div>
-            <h2>{admin.name}</h2>
+            <h2>{name}</h2>
             <span className="role-badge">
-              {admin.role === "admin" ? "Administrator" : admin.role}
+              Administrator
             </span>
           </div>
         </div>
 
+        {message && <p className="success">{message}</p>}
+
         {/* PROFILE INFO */}
         <div className="profile-info">
+
           <div className="info-row">
-            <label>Email</label>
-            <span>{admin.email}</span>
+            <label>Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="profile-input"
+            />
+          </div>
+
+          <div className="info-row">
+            <label>Phone</label>
+            <div className="profile-value">{admin.phone}</div>
           </div>
 
           <div className="info-row">
             <label>Role</label>
-            <span>
-              {admin.role === "admin" ? "Full Access" : admin.role}
-            </span>
+            <div className="profile-value">Full Access</div>
           </div>
+
         </div>
 
-        {/* PASSWORD SECTION */}
-        <div className="password-section">
-          <h3>Change Password</h3>
-
-          <input
-            type="password"
-            placeholder="Current password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-          />
-
-          <input
-            type="password"
-            placeholder="New password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-
-          <input
-            type="password"
-            placeholder="Confirm new password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-
-          <button
-            className="update-btn"
-            onClick={handleUpdatePassword}
-            disabled={!newPassword || !confirmPassword}
-          >
-            Update Password
-          </button>
-
-          <small className="note">
-            Password update connected to backend
-          </small>
-        </div>
+        <button
+          className="update-btn"
+          onClick={handleUpdateProfile}
+        >
+          Save Changes
+        </button>
+        
 
         {/* LOGOUT */}
         <button className="logout-btn" onClick={logout}>

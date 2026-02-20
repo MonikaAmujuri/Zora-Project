@@ -5,7 +5,7 @@ const reviewSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: undefined,
     },
     product: {
       type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +22,10 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isVerifiedBuyer: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );

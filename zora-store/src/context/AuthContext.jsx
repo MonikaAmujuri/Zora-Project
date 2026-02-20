@@ -17,14 +17,16 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("userInfo", JSON.stringify(userData));
-  };
+  localStorage.setItem("userInfo", JSON.stringify(userData));
+  localStorage.setItem("token", userData.token);
+  setUser(userData);
+};
 
-  const updateUser = (updatedUser) => {
-    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
-    setUser(updatedUser);
-  };
+  const updateUser = (userData) => {
+  localStorage.setItem("userInfo", JSON.stringify(userData));
+  localStorage.setItem("token", userData.token);   // 🔥 VERY IMPORTANT
+  setUser(userData);
+};
 
   const logout = async () => {
     try {

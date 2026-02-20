@@ -11,11 +11,9 @@ import "./Login.css";
 import { useAdmin } from "../../context/AdminContext.jsx";
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const { user, setUser } = useAdmin();
-    const [loginMode, setLoginMode] = useState("password");
+    const [loginMode] = useState("otp");
     const [phone, setPhone] = useState("");
     const [otp, setOtp] = useState("");
     const [confirmationResult, setConfirmationResult] = useState(null);
@@ -24,49 +22,6 @@ function Login() {
 
     const location = useLocation();
     const { login } = useAdmin();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-
-        try {
-            const res = await fetch("http://localhost:5000/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                setError(data.message || "Invalid credentials");
-                return;
-            }
-
-            console.log("LOGIN RESPONSE:", data); // 🔍 DEBUG
-
-            // 🔥 MUST exist
-            if (!data.token) {
-                console.error("Token missing from backend!");
-                return;
-            }
-
-            // 🔥 STORE TOKEN
-            localStorage.setItem("token", data.token);
-
-            login(data);
-
-            if (data.role === "admin") {
-                navigate("/admin/dashboard", { replace: true });
-            } else {
-                navigate("/", { replace: true });
-            }
-        } catch (err) {
-            console.error(err);
-            setError("Server error. Please try again.");
-        }
-    };
     
     const sendOTP = async () => {
             try {
@@ -126,60 +81,15 @@ function Login() {
     };
     return (
         <div className="login-page">
-            <form className="login-card" onSubmit={handleSubmit}>
+            <form className="login-card">
                 <h1 className="brand">ZORA</h1>
                 <p className="subtitle">Welcome back 👋</p>
 
                 <h2>Login</h2>
-                {/* 🔄 Login Mode Toggle */}
-                <div className="login-toggle">
-                    <button
-                        type="button"
-                        className={loginMode === "password" ? "active" : ""}
-                        onClick={() => setLoginMode("password")}
-                    >
-                        Password
-                    </button>
-
-                    <button
-                        type="button"
-                        className={loginMode === "otp" ? "active" : ""}
-                        onClick={() => setLoginMode("otp")}
-                    >
-                        OTP
-                    </button>
-                </div>
-
+                
                 {error && <p className="error">{error}</p>}
 
-                {/* PASSWORD LOGIN */}
-                {loginMode === "password" && (
-                    <>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-
-                        <p className="forgot-link">
-                            <Link to="/forgot-password">Forgot password?</Link>
-                        </p>
-                        <button type="submit">Login</button>
-
-                    </>
-                )}
                 {/* OTP LOGIN */}
-                {loginMode === "otp" && (
                     <>
                         <input
                             type="text"
@@ -189,10 +99,7 @@ function Login() {
                             required
                         />
 
-                        <button
-                            type="button"
-                            onClick={sendOTP}
-                        >
+                        <button type="button" onClick={sendOTP}>
                             Send OTP
                         </button>
 
@@ -205,10 +112,7 @@ function Login() {
                                     onChange={(e) => setOtp(e.target.value)}
                                 />
 
-                                <button
-                                    type="button"
-                                    onClick={verifyOTP}
-                                >
+                                <button type="button" onClick={verifyOTP}>
                                     Verify OTP
                                 </button>
                             </>
@@ -216,11 +120,6 @@ function Login() {
 
                         <div id="recaptcha-container"></div>
                     </>
-                )}
-
-                <p className="switch-auth">
-                    Don’t have an account? <Link to="/signup">Sign up</Link>
-                </p>
 
             </form>
         </div>

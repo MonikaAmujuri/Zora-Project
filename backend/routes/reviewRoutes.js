@@ -1,5 +1,7 @@
 import express from "express";
 import Review from "../models/Review.js";
+import jwt from "jsonwebtoken";
+import Order from "../models/Order.js";
 import Product from "../models/Product.js";
 
 const router = express.Router();
@@ -7,25 +9,51 @@ const router = express.Router();
 // POST review
 router.post("/", async (req, res) => {
   try {
-    const { user, product, rating, comment } = req.body;
+    const { product, rating, comment } = req.body;
 
-    // 🔥 CHECK IF USER ALREADY REVIEWED
-    const existingReview = await Review.findOne({
-      user,
-      product,
-    });
+    let userId = null;
+    let isVerifiedBuyer = false;
 
-    if (existingReview) {
-      return res.status(400).json({
-        message: "You have already reviewed this product",
+    // 🔥 If user is logged in (token exists)
+    const authHeader = req.headers.authorization;
+
+    if (authHeader && authHeader.startsWith("Bearer")) {
+      const token = authHeader.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      userId = decoded.id;
+
+      console.log("Decoded user:", userId);
+
+      // Prevent duplicate review for logged-in users
+      const existingReview = await Review.findOne({
+        user: userId,
+        product,
       });
+
+      if (existingReview) {
+        return res.status(400).json({
+          message: "You have already reviewed this product",
+        });
+      }
+
+      // 🔥 Check if user bought & delivered
+      const deliveredOrder = await Order.findOne({
+        user: userId,
+        status: "Delivered",
+        "items.productId": product,
+      });
+
+      if (deliveredOrder) {
+        isVerifiedBuyer = true;
+      }
     }
 
     const review = new Review({
-      user,
+      user: userId, // can be null for guest
       product,
       rating,
       comment,
+      isVerifiedBuyer,
     });
 
     await review.save();
@@ -134,7 +162,12 @@ router.get("/:productId", async (req, res) => {
   try {
     const reviews = await Review.find({
       product: req.params.productId,
-    }).populate("user", "name");
+    })
+      .populate("user", "name")
+      .sort({
+        isVerifiedBuyer: -1,  // 🔥 Verified buyers first
+        createdAt: -1         // Newest next
+      });
 
     res.json(reviews);
 

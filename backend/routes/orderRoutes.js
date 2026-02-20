@@ -3,14 +3,19 @@ import Order from "../models/Order.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import adminMiddleware from "../middleware/adminMiddleware.js";
 
-
 const router = express.Router();
 
-/* CREATE ORDER */
+
+// ============================
+// CREATE ORDER (USER)
+// ============================
 router.post("/", authMiddleware, async (req, res) => {
-  try { 
-    console.log("ORDER BODY:", req.body);
-    const order = new Order(req.body);
+  try {
+    const order = new Order({
+      ...req.body,
+      user: req.user._id, // 🔥 Always attach logged in user
+    });
+
     const saved = await order.save();
     res.status(201).json(saved);
   } catch (err) {
@@ -19,17 +24,42 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-/* GET ALL ORDERS (ADMIN) */
-router.get("/", authMiddleware, adminMiddleware,  async (req, res) => {
+
+// ============================
+// GET ALL ORDERS (ADMIN)
+// ============================
+router.get("/", authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const orders = await Order.find().sort({ createdAt: -1 });
+    const orders = await Order.find()
+      .populate("user", "name phone") // 🔥 populate phone only
+      .sort({ createdAt: -1 });
+
     res.json(orders);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-/* GET ORDER BY ID */
-router.get("/:id", async (req, res) => {
+router.get("/test", (req, res) => {
+  res.json({ message: "TEST OK" });
+});
+
+// GET LOGGED IN USER ORDERS
+// ============================
+router.get("/my-orders", authMiddleware, async (req, res) => {
+  try {
+    const orders = await Order.find({
+      user: req.user._id,
+    }).sort({ createdAt: -1 });
+
+    res.json(orders);
+  } catch (error) {
+    console.error("USER ORDERS ERROR:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// GET SINGLE ORDER (ONLY FOR OWNER)
+router.get("/:id", authMiddleware, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
 
@@ -37,41 +67,23 @@ router.get("/:id", async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
+    // 🔥 Make sure user owns this order
+    if (order.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
     res.json(order);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    console.error("GET ORDER ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 
 
-/* GET USER ORDERS */
-router.get("/user/:email", async (req, res) => {
-  try {
-    const orders = await Order.find({
-      userEmail: req.params.email,
-    }).sort({ createdAt: -1 });
-
-    res.json(orders);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-/* UPDATE ORDER STATUS (ADMIN) */
-router.put("/:id", authMiddleware, adminMiddleware,  async (req, res) => {
-  try {
-    const updated = await Order.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    res.json(updated);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-// UPDATE ORDER STATUS
-router.put("/:id/status", async (req, res) => {
+// ============================
+// UPDATE ORDER STATUS (ADMIN)
+// ============================
+router.put("/:id/status", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
 
@@ -91,11 +103,14 @@ router.put("/:id/status", async (req, res) => {
   }
 });
 
-    /* CANCEL ORDER */
-router.put("/cancel/:orderId", async (req, res) => {
+
+// ============================
+// CANCEL ORDER (USER)
+// ============================
+router.put("/cancel/:id", authMiddleware, async (req, res) => {
   try {
-    const order = await Order.findByIdAndUpdate(
-      req.params.orderId,
+    const order = await Order.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
       { status: "Cancelled" },
       { new: true }
     );
@@ -109,7 +124,6 @@ router.put("/cancel/:orderId", async (req, res) => {
       order,
     });
   } catch (err) {
-    console.error("CANCEL ORDER ERROR:", err);
     res.status(500).json({ message: "Failed to cancel order" });
   }
 });

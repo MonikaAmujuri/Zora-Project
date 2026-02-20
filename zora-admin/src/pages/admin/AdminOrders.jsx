@@ -41,6 +41,7 @@ function AdminOrders() {
       console.error("STATUS UPDATE ERROR:", err);
     }
   };
+  console.log(orders);
 
   return (
     <div className="orders-page">
@@ -73,7 +74,7 @@ function AdminOrders() {
               <tr key={order._id}>
                 <td>#{order._id.slice(-6)}</td>
 
-                <td>{order.userEmail}</td>
+                <td>{order.user?.phone || "N/A"}</td>
 
                 <td className="items-cell">
                   {order.items.map(i => (

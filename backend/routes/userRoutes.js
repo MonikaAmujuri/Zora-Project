@@ -1,5 +1,6 @@
 import express from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken"; 
 import User from "../models/User.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import adminMiddleware from "../middleware/adminMiddleware.js";
@@ -84,31 +85,33 @@ router.put(
 
 router.put("/update-profile", authMiddleware, async (req, res) => {
   try {
-    const { name, password } = req.body;
+    const user = await User.findById(req.user._id);
 
-    const updateData = { name };
-
-    if (password && password.trim() !== "") {
-      updateData.password = await bcrypt.hash(password, 10);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user._id,   // 🔥 VERY IMPORTANT
-      updateData,
-      { new: true }
+    user.name = req.body.name || user.name;
+
+    const updatedUser = await user.save();
+
+    const token = jwt.sign(
+      { id: updatedUser._id, role: updatedUser.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
     );
 
     res.json({
-      message: "Profile updated successfully",
-      user: {
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-      },
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      phone: updatedUser.phone,
+      role: updatedUser.role,
+      token,
     });
+
   } catch (error) {
-    console.error("UPDATE PROFILE ERROR:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: error.message });
   }
 });
+
 export default router;

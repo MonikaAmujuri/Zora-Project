@@ -149,15 +149,14 @@ const finalPrice =
       method,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        user: user._id,
         product: product._id,
         rating,
         comment,
       }),
     });
-
     const data = await res.json();
 
     if (!res.ok) {
@@ -339,11 +338,23 @@ const handleDeleteReview = async (reviewId) => {
 
         {reviews.map((r) => (
           <div className="review-item" key={r._id}>
-            <strong>{r.user?.name}</strong>
+
+            <div className="review-header">
+              <strong>{r.user?.name || "Anonymous"}</strong>
+
+              {r.isVerifiedBuyer && (
+                <span className="verified-badge">
+                  ✔ Verified Buyer
+                </span>
+              )}
+            </div>
+
             <div className="stars">
               {"★".repeat(r.rating)}
             </div>
+
             <p>{r.comment}</p>
+
             {user && r.user?._id === user._id && (
               <button
                 className="delete-review-btn"

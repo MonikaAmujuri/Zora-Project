@@ -24,12 +24,10 @@ function MyOrders() {
 
   const fetchOrders = async () => {
   try {
-    const identifier = user.email || user.phone;
-
-    console.log("Fetching orders for:", identifier);
+    console.log("Fetching logged-in user orders");
 
     const res = await authFetch(
-      `http://localhost:5000/api/orders/user/${identifier}`
+      "http://localhost:5000/api/orders/my-orders"
     );
 
     if (!res.ok) {
@@ -47,7 +45,7 @@ function MyOrders() {
         if (!window.confirm("Cancel this order?")) return;
 
         try {
-            const res = await fetch(
+            const res = await authFetch(
                 `http://localhost:5000/api/orders/cancel/${orderId}`,
                 { method: "PUT" }
             );

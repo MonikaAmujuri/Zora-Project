@@ -244,3 +244,17 @@
   background: #ffb400;
   transition: width 0.4s ease;
 }
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.verified-badge {
+  background-color: #e6f7ed;
+  color: #2e7d32;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}

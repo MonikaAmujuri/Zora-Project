@@ -1,5 +1,6 @@
 import express from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
@@ -71,22 +72,23 @@ router.get(
 );
 
 //  DELETE USER (Admin only)
-router.delete(
-  "/users/:id",
-  authMiddleware,
-  adminMiddleware,
-  async (req, res) => {
-    try {
-      const { id } = req.params;
+router.delete("/users/:id", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const userId = req.params.id;
 
-      await User.findByIdAndDelete(id);
+    // 1️⃣ Delete all orders of that user
+    await Order.deleteMany({ user: userId });
 
-      res.json({ message: "User deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ message: "Server error" });
-    }
+    // 2️⃣ Delete the user
+    await User.findByIdAndDelete(userId);
+
+    res.json({ message: "User and their orders deleted successfully" });
+
+  } catch (error) {
+    console.error("Delete user error:", error);
+    res.status(500).json({ message: "Delete failed" });
   }
-);
+});
 
 //  UPDATE USER ROLE
 router.put(
@@ -112,21 +114,20 @@ router.put(
 );
 
 //  GET ALL ORDERS (Admin only)
-router.get(
-  "/orders",
-  authMiddleware,
-  adminMiddleware,
-  async (req, res) => {
-    try {
-      const orders = await Order.find().sort({ createdAt: -1 });
+router.get("/orders", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate("user", "name phone")
+      .sort({ createdAt: -1 });
 
-      res.json(orders);
-    } catch (error) {
-      console.error("Admin orders error:", error);
-      res.status(500).json({ message: "Server error" });
-    }
+    console.log("ADMIN POPULATED ORDERS:", orders);
+
+    res.json(orders);
+  } catch (error) {
+    console.error("ADMIN ORDERS ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
-);
+});
 
 router.put(
   "/orders/:id/status",
@@ -281,46 +282,37 @@ router.get(
 );
 
 //  UPDATE ADMIN PROFILE
-router.put(
-  "/profile",
-  authMiddleware,
-  adminMiddleware,
-  async (req, res) => {
-    try {
-      const { currentPassword, password } = req.body;
+router.put("/profile", authMiddleware, async (req, res) => {
+  try {
+    const adminUser = await User.findById(req.user._id);
 
-      const admin = await User.findById(req.user.id);
-
-      if (!admin) {
-        return res.status(404).json({ message: "Admin not found" });
-      }
-
-      // 🔐 Check current password
-      if (password) {
-        const isMatch = await bcrypt.compare(
-          currentPassword,
-          admin.password
-        );
-
-        if (!isMatch) {
-          return res.status(400).json({
-            message: "Current password incorrect",
-          });
-        }
-
-        const hashed = await bcrypt.hash(password, 10);
-        admin.password = hashed;
-      }
-
-      await admin.save();
-
-      res.json({ message: "Profile updated" });
-
-    } catch (error) {
-      res.status(500).json({ message: "Server error" });
+    if (!adminUser || adminUser.role !== "admin") {
+      return res.status(403).json({ message: "Not authorized" });
     }
+
+    adminUser.name = req.body.name || adminUser.name;
+
+    const updated = await adminUser.save();
+
+    const token = jwt.sign(
+      { id: updated._id, role: updated.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      _id: updated._id,
+      name: updated.name,
+      phone: updated.phone,
+      role: updated.role,
+      token
+    });
+
+  } catch (error) {
+    console.error("ADMIN UPDATE ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
-);
+});
 
 // 📊 SALES GRAPH (Monthly Revenue)
 router.get("/sales-graph", authMiddleware, adminMiddleware, async (req, res) => {

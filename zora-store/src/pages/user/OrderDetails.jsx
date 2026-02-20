@@ -1,18 +1,21 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { authFetch } from "../../utils/api";
 import "./OrderDetails.css";
 
 function OrderDetails() {
   const { id } = useParams(); // ✅ only ONE param
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!id) return;
 
     const fetchOrder = async () => {
       try {
-        const res = await fetch(
+        const res = await authFetch(
           `http://localhost:5000/api/orders/${id}`
         );
 

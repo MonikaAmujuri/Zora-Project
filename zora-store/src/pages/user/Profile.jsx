@@ -7,45 +7,46 @@ function Profile() {
   const { user, loading, logout, updateUser } = useAuth();
   const navigate = useNavigate();
 
-
   const [name, setName] = useState(user?.name || "");
-  const [password, setPassword] = useState("");
+  const [address, setAddress] = useState(user?.address || "");
+  const [city, setCity] = useState(user?.city || "");
+  const [state, setState] = useState(user?.state || "");
+  const [pincode, setPincode] = useState(user?.pincode || "");
   const [message, setMessage] = useState("");
 
   if (loading) return <p>Loading...</p>;
   if (!user) return <Navigate to="/login" />;
 
   const handleSave = async () => {
-  try {
-    const res = await fetch(
-      "http://localhost:5000/api/users/update-profile",
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user._id,
-          name,
-          password,
-        }),
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(
+        "http://localhost:5000/api/users/update-profile",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage("Profile updated successfully");
+        updateUser(data);
+      } else {
+        setMessage(data.message || "Update failed");
       }
-    );
-
-    const data = await res.json();
-
-    if (res.ok) {
-      setMessage("Profile updated successfully");
-
-      // ✅ THIS IS THE KEY LINE
-      updateUser(data.user);
-
-      setPassword("");
-    } else {
-      setMessage(data.message || "Update failed");
+    } catch (error) {
+      setMessage("Something went wrong");
     }
-  } catch (error) {
-    setMessage("Something went wrong");
-  }
-};
+  };
 
   return (
     <div className="profile-page">
@@ -61,17 +62,10 @@ function Profile() {
           onChange={(e) => setName(e.target.value)}
         />
 
-        <label>Email</label>
-        <input type="email" value={user.email} disabled />
+        <label>Phone</label>
+        <input type="text" value={user.phone} disabled />
 
-        <label>New Password</label>
-        <input
-          type="password"
-          placeholder="Leave blank to keep current password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
+        
         <button className="save-btn" onClick={handleSave}>
           Save Changes
         </button>

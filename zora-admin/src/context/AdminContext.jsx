@@ -1,56 +1,28 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { authFetch } from "../utils/api";
+import { createContext, useContext, useState } from "react";
 
 const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
-  const [admin, setAdmin] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const checkAdminAuth = async () => {
-      try {
-        const res = await authFetch(
-          "http://localhost:5000/api/auth/me",
-          { credentials: "include" }
-        );
-
-        if (res.ok) {
-          const data = await res.json();
-
-          // 🔥 Only allow admin
-          if (data.role === "admin") {
-            setAdmin(data);
-          }
-        }
-      } catch (err) {
-        console.log("Admin auth check failed");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkAdminAuth();
-  }, []);
+  const [admin, setAdmin] = useState(() => {
+    const stored = localStorage.getItem("adminInfo");
+    return stored ? JSON.parse(stored) : null;
+  });
 
   const login = (adminData) => {
+    localStorage.setItem("adminInfo", JSON.stringify(adminData));
+    localStorage.setItem("token", adminData.token);
     setAdmin(adminData);
   };
 
-  const logout = async () => {
-    await authFetch("http://localhost:5000/api/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-
-    setAdmin(null);
+  const logout = () => {
+    localStorage.removeItem("adminInfo");
     localStorage.removeItem("token");
+    setAdmin(null);
   };
 
   return (
-    <AdminContext.Provider
-      value={{ admin, login, logout, loading }}
-    >
+    <AdminContext.Provider value={{ admin, login, logout }}>
       {children}
     </AdminContext.Provider>
   );

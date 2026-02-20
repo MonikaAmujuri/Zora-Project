@@ -59,27 +59,3 @@
   text-align: center;
 }
 
-.forgot-link {
-  text-align: right;
-  margin-top: 6px;
-  font-size: 13px;
-}
-.login-toggle {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.login-toggle button {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  background: white;
-  color: black;
-  cursor: pointer;
-}
-
-.login-toggle .active {
-  background: black;
-  color: white;
-}
