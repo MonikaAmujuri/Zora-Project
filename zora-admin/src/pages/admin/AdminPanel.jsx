@@ -172,6 +172,40 @@ const loadProducts = async () => {
     alert("Failed to delete product");
   }
 };
+const subcategoryOptions = {
+  pattu: [
+    { value: "kanchi", label: "Kanchi Pattu" },
+    { value: "uppada", label: "Uppada Pattu" },
+    { value: "mangalagiri", label: "Mangalagiri Pattu" },
+  ],
+  fancy: [
+    { value: "banaras", label: "Banaras" },
+    { value: "victoria", label: "Victoria" },
+    { value: "glass-tissue", label: "Glass Tissue" },
+  ],
+  cotton: [
+    { value: "bengal", label: "Bengal Cotton" },
+    { value: "meena", label: "Meena Cotton" },
+    { value: "printed", label: "Printed Cotton" },
+  ],
+  work: [
+    { value: "jimmy", label: "Jimmy silk" },
+    { value: "georgette", label: "Georgette" },
+    { value: "chiffon", label: "Chiffon" },
+  ],
+  dresses: [
+    { value: "long-frock", label: "Long Frocks" },
+    { value: "three-piece", label: "3 Piece Set" },
+    { value: "dress-material", label: "Dress Materials" },
+  ],
+  croptops: [
+    { value: "half-sarees", label: "Half Sarees" },
+    { value: "chunnies", label: "Chunnies" },
+    { value: "readymade-blouses", label: "Readymade Blouses" },
+    { value: "leggings", label: "Leggings" },
+    { value: "western-wear", label: "Western Wear" },
+  ],
+};
 
 
   /* -------------------- UI -------------------- */
@@ -303,38 +337,21 @@ const loadProducts = async () => {
 
             }}
           />
-          {/* SUB CATEGORY — ONLY FOR DRESSES */}
-          {form.category === "dresses" && (
+          {subcategoryOptions[form.category] && (
             <select
               value={form.subCategory}
               onChange={(e) =>
                 setForm({ ...form, subCategory: e.target.value })
               }
             >
-              <option value="">Select Dress Type</option>
-              <option value="long-frock">Long Frocks</option>
-              <option value="three-piece">3 Piece Set</option>
-              <option value="dress-material">Dress Materials</option>
+              <option value="">Select Subcategory *</option>
+              {subcategoryOptions[form.category].map((sub) => (
+                <option key={sub.value} value={sub.value}>
+                  {sub.label}
+                </option>
+              ))}
             </select>
           )}
-
-          {/* 👚 Crop Tops Subcategory */}
-          {form.category === "croptops" && (
-            <select
-              value={form.subCategory}
-              onChange={(e) =>
-                setForm({ ...form, subCategory: e.target.value })
-              }
-            >
-              <option value="">Select Crop Top Type *</option>
-              <option value="half-sarees">Half Sarees</option>
-              <option value="chunnies">Chunnies</option>
-              <option value="readymade-blouses">Readymade Blouses</option>
-              <option value="leggings">Leggings</option>
-              <option value="western-wear">Western Wear</option>
-            </select>
-          )}
-
           <select
             value={form.color}
             onChange={(e) => setForm({ ...form, color: e.target.value })}

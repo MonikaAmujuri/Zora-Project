@@ -383,3 +383,17 @@
   color: #e63946;
   transform: scale(1.1);
 }
+.product-rating {
+  display: flex;
+  justify-content: center;   /* 🔥 centers horizontally */
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #f4a261;
+  margin: 6px 0;
+}
+
+.review-count {
+  color: #666;
+  font-size: 13px;
+}

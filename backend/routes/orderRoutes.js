@@ -109,23 +109,39 @@ router.put("/:id/status", authMiddleware, adminMiddleware, async (req, res) => {
 // ============================
 router.put("/cancel/:id", authMiddleware, async (req, res) => {
   try {
+    const { reason } = req.body;
+
+    if (!reason) {
+      return res.status(400).json({
+        message: "Cancel reason is required",
+      });
+    }
+
     const order = await Order.findOneAndUpdate(
       { _id: req.params.id, user: req.user._id },
-      { status: "Cancelled" },
+      {
+        status: "Cancelled",
+        cancelReason: reason,
+      },
       { new: true }
     );
 
     if (!order) {
-      return res.status(404).json({ message: "Order not found" });
+      return res.status(404).json({
+        message: "Order not found",
+      });
     }
 
     res.json({
       message: "Order cancelled successfully",
       order,
     });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to cancel order" });
-  }
-});
 
+  } catch (err) {
+    res.status(500).json({
+      message: "Failed to cancel order",
+    });
+  }
+
+});
 export default router;

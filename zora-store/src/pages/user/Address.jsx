@@ -22,7 +22,11 @@ function Address() {
   useEffect(() => {
   if (!user?._id) return;
 
-  fetch(`http://localhost:5000/api/address/${user._id}`)
+    fetch(`http://localhost:5000/api/address/${user._id}`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
     .then(res => res.json())
     .then(data => setAddresses(data));
 }, [user]);
@@ -33,7 +37,10 @@ function Address() {
   try {
     const res = await fetch("http://localhost:5000/api/address/add", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
       body: JSON.stringify({
         userId: user._id,
         name: form.name,
@@ -54,7 +61,12 @@ function Address() {
 
     // refresh address list
     const listRes = await fetch(
-      `http://localhost:5000/api/address/${user._id}`
+      `http://localhost:5000/api/address/${user._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
     );
     const list = await listRes.json();
     setAddresses(list);

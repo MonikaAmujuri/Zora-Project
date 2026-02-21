@@ -4,6 +4,7 @@ import "./AdminOrders.css";
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   // 🔥 Load Orders
   const loadOrders = async () => {
@@ -56,6 +57,7 @@ function AdminOrders() {
               <th>Items</th>
               <th>Total</th>
               <th>Status</th>
+              <th>Cancel Reason</th>
               <th>Date</th>
               <th>Action</th>
             </tr>
@@ -85,11 +87,25 @@ function AdminOrders() {
                 </td>
 
                 <td>₹ {order.total}</td>
+                <td>
+                  <button
+                    className="address-btn"
+                    onClick={() => setSelectedOrder(order)}
+                  >
+                    View Address
+                  </button>
+                </td>
 
                 <td>
                   <span className={`status ${order.status.toLowerCase()}`}>
                     {order.status}
                   </span>
+                </td>
+               
+                <td>
+                  {order.status === "Cancelled"
+                    ? order.cancelReason || "No reason"
+                    : "-"}
                 </td>
 
                 <td>
@@ -117,6 +133,27 @@ function AdminOrders() {
           </tbody>
         </table>
       </div>
+      {selectedOrder && (
+        <div className="address-overlay">
+          <div className="address-modal">
+            <h3>Delivery Address</h3>
+
+            <p><strong>{selectedOrder.address?.name}</strong></p>
+            <p>{selectedOrder.address?.street}</p>
+            <p>
+              {selectedOrder.address?.city} - {selectedOrder.address?.pincode}
+            </p>
+            <p>📞 {selectedOrder.address?.phone}</p>
+
+            <button
+              onClick={() => setSelectedOrder(null)}
+              className="close-btn"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

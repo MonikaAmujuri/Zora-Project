@@ -143,13 +143,9 @@ const updateRole = async (id, newRole) => {
                     {new Date(user.createdAt).toLocaleDateString()}
                   </td>
                   <td>
-                    <select
-                      value={user.role}
-                      onChange={(e) => updateRole(user._id, e.target.value)}
-                    >
-                      <option value="user">User</option>
-                      <option value="admin">Admin</option>
-                    </select>
+                    <span className={`role-badge ${user.role}`}>
+                      {user.role === "admin" ? "Admin" : "User"}
+                    </span>
                   </td>
 
                   <td>

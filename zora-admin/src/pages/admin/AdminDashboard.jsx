@@ -7,25 +7,43 @@ import "./AdminDashboard.css";
 
 function AdminDashboard() {
   const navigate = useNavigate();
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState(() => {
+  const saved = localStorage.getItem("adminDashboardStats");
+  return saved ? JSON.parse(saved) : null;
+});
   
 
   useEffect(() => {
-    const fetchStats = async () => {
+  const fetchStats = async () => {
+    try {
       const token = localStorage.getItem("token");
 
-      const res = await authFetch("http://localhost:5000/api/admin/dashboard", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await authFetch(
+        "http://localhost:5000/api/admin/dashboard",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const data = await res.json();
-      setStats(data);
-    };
 
-    fetchStats();
-  }, []);
+      setStats(data);
+
+      // 🔥 Save to localStorage
+      localStorage.setItem(
+        "adminDashboardStats",
+        JSON.stringify(data)
+      );
+
+    } catch (err) {
+      console.error("Dashboard fetch error:", err);
+    }
+  };
+
+  fetchStats();
+}, []);
 
   // 🔹 Stats
 const totalProducts = stats?.totalProducts || 0;

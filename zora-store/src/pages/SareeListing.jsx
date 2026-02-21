@@ -18,8 +18,7 @@ function SareeListing() {
   const [products, setProducts] = useState([]);
   const [addedId, setAddedId] = useState(null);
   const [quantities, setQuantities] = useState({});
-  const [dressFilter, setDressFilter] = useState("all");
-  const [croptopsFilter, setCropTopsFilter] = useState("all");
+  const [subCategoryFilter, setSubCategoryFilter] = useState("all");
   const navigate = useNavigate();
   const subType = searchParams.get("type"); // subcategory
   const [priceRange, setPriceRange] = useState([0, 50000]);
@@ -185,19 +184,19 @@ function SareeListing() {
     );
   }
 
-  /* DRESSES SUB FILTER */
-  if (type === "dresses" && dressFilter !== "all") {
-    filteredProducts = filteredProducts.filter(
-      (p) => p.subCategory === dressFilter
-    );
-  }
+  // PRIORITY 1: If query param exists (from navbar)
+if (subType) {
+  filteredProducts = filteredProducts.filter(
+    (p) => p.subCategory === subType
+  );
+}
 
-  /* Crop Tops SUB FILTER */
-  if (type === "croptops" && croptopsFilter !== "all") {
-    filteredProducts = filteredProducts.filter(
-      (p) => p.subCategory === croptopsFilter
-    );
-  }
+// PRIORITY 2: If user clicks tabs manually
+else if (subCategoryFilter !== "all") {
+  filteredProducts = filteredProducts.filter(
+    (p) => p.subCategory === subCategoryFilter
+  );
+}
 
   if (searchTerm) {
     filteredProducts = filteredProducts.filter(
@@ -207,6 +206,40 @@ function SareeListing() {
         p.category.toLowerCase().includes(searchTerm)
     );
   }
+  const subcategoryOptions = {
+  pattu: [
+    { value: "kanchi", label: "Kanchi Pattu" },
+    { value: "uppada", label: "Uppada Pattu" },
+    { value: "mangalagiri", label: "Mangalagiri Pattu" },
+  ],
+  fancy: [
+    { value: "banaras", label: "Banaras" },
+    { value: "victoria", label: "Victoria" },
+    { value: "glass-tissue", label: "Glass Tissue" },
+  ],
+  cotton: [
+    { value: "bengal", label: "Bengal Cotton" },
+    { value: "meena", label: "Meena Cotton" },
+    { value: "printed", label: "Printed Cotton" },
+  ],
+  work: [
+    { value: "jimmy", label: "Jimmy silk" },
+    { value: "georgette", label: "Georgette" },
+    { value: "chiffon", label: "Chiffon" },
+  ],
+  dresses: [
+    { value: "long-frock", label: "Long Frocks" },
+    { value: "three-piece", label: "3 Piece Set" },
+    { value: "dress-material", label: "Dress Materials" },
+  ],
+  croptops: [
+    { value: "half-sarees", label: "Half Sarees" },
+    { value: "chunnies", label: "Chunnies" },
+    { value: "readymade-blouses", label: "Readymade Blouses" },
+    { value: "leggings", label: "Leggings" },
+    { value: "western-wear", label: "Western Wear" },
+  ],
+};
 
   /* UI */
   return (
@@ -294,80 +327,24 @@ function SareeListing() {
 
               <div className="title-divider"></div>
             </div>
-            {type === "dresses" && (
-              <div className="dress-tabs">
-                <button
-                  className={dressFilter === "all" ? "active" : ""}
-                  onClick={() => setDressFilter("all")}
-                >
-                  All
-                </button>
-
-                <button
-                  className={dressFilter === "long-frock" ? "active" : ""}
-                  onClick={() => setDressFilter("long-frock")}
-                >
-                  Long Frocks
-                </button>
-
-                <button
-                  className={dressFilter === "three-piece" ? "active" : ""}
-                  onClick={() => setDressFilter("three-piece")}
-                >
-                  3 Piece Set
-                </button>
-
-                <button
-                  className={dressFilter === "dress-material" ? "active" : ""}
-                  onClick={() => setDressFilter("dress-material")}
-                >
-                  Dress Materials
-                </button>
-              </div>
-            )}
-            {/* 👚 Crop Tops Subcategories */}
-            {type === "croptops" && (
+            {subcategoryOptions[type] && (
               <div className="subcategory-tabs">
                 <button
-                  className={croptopsFilter === "all" ? "active" : ""}
-                  onClick={() => setCropTopsFilter("all")}
+                  className={subCategoryFilter === "all" ? "active" : ""}
+                  onClick={() => setSubCategoryFilter("all")}
                 >
                   All
                 </button>
 
-                <button
-                  className={croptopsFilter === "half-sarees" ? "active" : ""}
-                  onClick={() => setCropTopsFilter("half-sarees")}
-                >
-                  Half Sarees
-                </button>
-
-                <button
-                  className={croptopsFilter === "chunnies" ? "active" : ""}
-                  onClick={() => setCropTopsFilter("chunnies")}
-                >
-                  Chunnies
-                </button>
-
-                <button
-                  className={croptopsFilter === "readymade-blouses" ? "active" : ""}
-                  onClick={() => setCropTopsFilter("readymade-blouses")}
-                >
-                  Readymade Blouses
-                </button>
-
-                <button
-                  className={croptopsFilter === "leggings" ? "active" : ""}
-                  onClick={() => setCropTopsFilter("leggings")}
-                >
-                  Leggings
-                </button>
-                <button
-                  className={croptopsFilter === "western-wear" ? "active" : ""}
-                  onClick={() => setCropTopsFilter("western-wear")}
-                >
-                  Western Wear
-                </button>
+                {subcategoryOptions[type].map((sub) => (
+                  <button
+                    key={sub.value}
+                    className={subCategoryFilter === sub.value ? "active" : ""}
+                    onClick={() => setSubCategoryFilter(sub.value)}
+                  >
+                    {sub.label}
+                  </button>
+                ))}
               </div>
             )}
 
@@ -395,8 +372,13 @@ function SareeListing() {
                   <div className="product-info">
                     <h4>{p.name}</h4>
                     <p>{p.desc}</p>
-
-
+                    <div className="product-rating">
+                      {"★".repeat(Math.round(p.rating || 0))}
+                      {"☆".repeat(5 - Math.round(p.rating || 0))}
+                      <span className="review-count">
+                        ({p.numReviews || 0})
+                      </span>
+                    </div>
                     <div className="price-row">
                       {p.discount > 0 ? (
                         <>

@@ -1,35 +1,49 @@
 import { Link } from "react-router-dom";
 import RecentProducts from "../../components/user/RecentProducts";
 import Hero from "../../components/user/Hero";
+import { useNavigate } from "react-router-dom";
 
 import "./Home.css";
 
 function Home() {
+  const navigate = useNavigate();
   return (
     <div className="home">
       <Hero />
 
-      <section className="categories">
+      <div className="category-section">
         <h2>Shop by Category</h2>
 
         <div className="category-grid">
-          <Link to="/sarees/pattu" className="category-card">
-            Pattu Sarees
-          </Link>
+          <div className="category-card" onClick={() => navigate("/sarees/pattu")}>
+            <div className="category-image">
+              <img src="/images/pattu.jpg" alt="Pattu" />
+            </div>
+            <p>Pattu Sarees</p>
+          </div>
 
-          <Link to="/sarees/fancy" className="category-card">
-            Fancy Sarees
-          </Link>
+          <div className="category-card" onClick={() => navigate("/sarees/fancy")}>
+            <div className="category-image">
+              <img src="/images/fancy.jpg" alt="Fancy" />
+            </div>
+            <p>Fancy Sarees</p>
+          </div>
 
-          <Link to="/sarees/dresses" className="category-card">
-            Dresses
-          </Link>
+          <div className="category-card" onClick={() => navigate("/sarees/dresses")}>
+            <div className="category-image">
+              <img src="/images/dresses.jpg" alt="Dresses" />
+            </div>
+            <p>Dresses</p>
+          </div>
 
-          <Link to="/sarees/croptops" className="category-card">
-            Crop Tops
-          </Link>
+          <div className="category-card" onClick={() => navigate("/sarees/croptops")}>
+            <div className="category-image">
+              <img src="/images/croptops.jpg" alt="Crop Tops" />
+            </div>
+            <p>Crop Tops</p>
+          </div>
         </div>
-      </section>
+      </div>
 
       <section className="festival-banner">
   <div className="festival-content">

@@ -15,7 +15,11 @@ function Cart() {
 useEffect(() => {
   if (!user?._id) return;
 
-  fetch(`http://localhost:5000/api/cart/${user._id}`)
+  fetch(`http://localhost:5000/api/cart/${user._id}`, {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  })
     .then(res => res.json())
     .then(data => {
       setCart(data.items || []);
@@ -47,7 +51,10 @@ const totalSaved = totalOriginal - totalFinal;
   const updateQty = async (productId, qty) => {
   await fetch("http://localhost:5000/api/cart/update", {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${user.token}`,
+    },
     body: JSON.stringify({
       userId: user._id,
       productId,
@@ -64,7 +71,10 @@ const totalSaved = totalOriginal - totalFinal;
   const removeItem = async (productId) => {
   await fetch("http://localhost:5000/api/cart/remove", {
     method: "DELETE",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${user.token}`,
+    },
     body: JSON.stringify({
       userId: user._id,
       productId,

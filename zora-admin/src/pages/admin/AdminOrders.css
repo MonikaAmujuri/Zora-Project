@@ -113,3 +113,49 @@
 .status-select:hover {
   transform: scale(1.05);
 }
+.cancel-reason {
+  font-size: 12px;
+  color: #e63946;
+  margin-top: 5px;
+}
+.address-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.address-btn:hover {
+  background: #f3f4f6;
+}
+
+/* Modal */
+.address-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.address-modal {
+  background: white;
+  padding: 25px;
+  width: 380px;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+
+.close-btn {
+  margin-top: 15px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #111;
+  color: white;
+  cursor: pointer;
+}

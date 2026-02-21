@@ -39,3 +39,19 @@
   border-radius: 20px;
   font-size: 12px;
 }
+.role-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.role-badge.admin {
+  background: #ede7f6;
+  color: #5e35b1;
+}
+
+.role-badge.user {
+  background: #e3f2fd;
+  color: #1976d2;
+}

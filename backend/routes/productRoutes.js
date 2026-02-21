@@ -9,7 +9,20 @@ const router = express.Router();
 /* GET ALL PRODUCTS */
 // GET ALL PRODUCTS
 router.get("/", async (req, res) => {
-  const products = await Product.find();
+  const { category, subcategory } = req.query;
+
+    let filter = {};
+
+    if (category) {
+      filter.category = category;
+    }
+
+    if (subcategory) {
+      filter.subcategory = subcategory;
+    }
+
+  const products = await Product.find(filter);
+  console.log(products);
   res.json(products);
 });
 
@@ -81,6 +94,7 @@ router.put("/:id", authMiddleware, adminMiddleware, async (req, res) => {
     product.price = req.body.price || product.price;
     product.description = req.body.description || product.description;
     product.category = req.body.category || product.category;
+    product.subCategory = req.body.subCategory || product.subCategory;
     product.countInStock = req.body.countInStock || product.countInStock;
 
     const updatedProduct = await product.save();

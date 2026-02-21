@@ -1,12 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useLocation } from "react-router-dom";
 import { FiHeart } from "react-icons/fi";
 import "./ProductDetails.css";
 
 function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [product, setProduct] = useState(null);
   const [qty, setQty] = useState(1);
@@ -51,6 +53,17 @@ function ProductDetails() {
     loadProduct();
   }
 }, [id]);
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const shouldScroll = params.get("review");
+
+    if (shouldScroll) {
+      const reviewSection = document.getElementById("review-section");
+      if (reviewSection) {
+        reviewSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
 
   /* LOAD REVIEWS */
   useEffect(() => {
@@ -280,7 +293,7 @@ const handleDeleteReview = async (reviewId) => {
       </div>
 
       {/* REVIEWS */}
-      <div className="reviews-section">
+      <div id="review-section" className="reviews-section">
         <h3>Customer Reviews</h3>
         <div className="rating-breakdown">
           {[5, 4, 3, 2, 1].map((star) => {

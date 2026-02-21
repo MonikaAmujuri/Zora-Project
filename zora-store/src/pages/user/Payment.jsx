@@ -32,7 +32,11 @@ function Payment() {
   useEffect(() => {
   if (!user?._id) return;
 
-  fetch(`http://localhost:5000/api/cart/${user._id}`)
+    fetch(`http://localhost:5000/api/cart/${user._id}`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
     .then(res => res.json())
     .then(data => {
       const items = data.items || [];
@@ -57,7 +61,7 @@ function Payment() {
   /* PLACE ORDER */
 
 const placeOrder = async () => {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  
   console.log("PAYMENT PAYLOAD:", {
   userId: user._id,
   method: selectedPayment.toUpperCase(),
@@ -73,8 +77,11 @@ const placeOrder = async () => {
     const paymentRes = await fetch(
       "http://localhost:5000/api/payment/create",
       {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: user._id,
           method: selectedPayment.toUpperCase(),
@@ -92,7 +99,7 @@ const placeOrder = async () => {
 
     /* 2️⃣ CREATE ORDER */
     const newOrder = {
-  userEmail: userInfo.email || userInfo.phone, // ✅ REQUIRED FIELD
+  userEmail: user.email || user.phone, // ✅ REQUIRED FIELD
   items: cart.map(item => ({
     productId: item.id,
     name: item.name,

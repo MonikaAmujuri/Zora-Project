@@ -25,7 +25,7 @@
   border-radius: 14px;
   padding: 20px 24px;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr 160px auto;
   align-items: center;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   transition: transform 0.2s ease;
@@ -48,21 +48,19 @@
 
 /* CENTER */
 .order-center {
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  padding-right: 10px;
 }
 
-.order-total {
-  display: block;
-  font-size: 16px;
-  font-weight: 700;
-  margin-top: 6px;
-}
 
-/* STATUS */
+
 .status-badge {
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -71,7 +69,7 @@
   color: #d97706;
 }
 
-.status-badge.completed {
+.status-badge.delivered {
   background: #e7f8ef;
   color: #059669;
 }
@@ -84,6 +82,7 @@
 /* RIGHT */
 .view-btn {
   text-decoration: none;
+  white-space: nowrap;
   font-weight: 600;
   color: #7A2E3A;
   border: 1px solid #ddd;
@@ -96,16 +95,30 @@
   background: #7A2E3ACC;
   color: white;
 }
+.order-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
 
 /* MOBILE */
 @media (max-width: 640px) {
   .order-card {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 14px;
   }
 
   .order-center {
-    text-align: left;
+    align-items: flex-start;
+    border-right: none;
+  }
+
+  .order-right {
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
 
@@ -125,3 +138,108 @@
   background: #dc2626;
   color: white;
 }
+/* Overlay */
+.cancel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Modal box */
+.cancel-modal-box {
+  background: #ffffff;
+  width: 420px;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.25s ease;
+}
+
+/* Title */
+.cancel-modal-box h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Subtext */
+.cancel-subtext {
+  font-size: 14px;
+  color: #777;
+  margin: 10px 0 20px;
+}
+
+/* Select */
+.cancel-select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+/* Textarea */
+.cancel-textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  min-height: 90px;
+  resize: none;
+  outline: none;
+  margin-bottom: 15px;
+}
+
+/* Buttons container */
+.cancel-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Close button */
+.cancel-close-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Confirm button */
+.cancel-confirm-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #e63946;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.cancel-confirm-btn:hover {
+  background: #d62839;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}   

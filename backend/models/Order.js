@@ -42,6 +42,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: "Pending", // Pending | Shipped | Delivered | Cancelled
     },
+    cancelReason: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true } // ✅ createdAt, updatedAt
 );
