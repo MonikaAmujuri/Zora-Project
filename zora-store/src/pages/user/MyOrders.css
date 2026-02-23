@@ -20,7 +20,7 @@
   gap: 18px;
 }
 
-.order-card {
+.myorder-card {
   background: #fff;
   border-radius: 14px;
   padding: 20px 24px;
@@ -31,7 +31,7 @@
   transition: transform 0.2s ease;
 }
 
-.order-card:hover {
+.myorder-card:hover {
   transform: translateY(-2px);
 }
 
@@ -106,7 +106,7 @@
 
 /* MOBILE */
 @media (max-width: 640px) {
-  .order-card {
+  .myorder-card {
     grid-template-columns: 1fr;
     gap: 14px;
   }

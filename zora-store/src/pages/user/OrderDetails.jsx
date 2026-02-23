@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { authFetch } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import UserHeader from "../../components/user/UserHeader";
 import "./OrderDetails.css";
 
 function OrderDetails() {
@@ -75,6 +76,8 @@ function OrderDetails() {
   if (!order) return <p className="empty-text">Order not found</p>;
 
   return (
+    <>
+    <UserHeader />
     <div className="order-details-page">
       <h2 className="order-title">Order Details</h2>
 
@@ -127,8 +130,9 @@ function OrderDetails() {
         </div>
 
         {/* ================= ITEMS ================= */}
-        {order.items.map((item, index) => (
-          <div className="order-item" key={index}>
+          {order.items.map((item, index) => (
+          <div className="order-item" key={index}
+              onClick={() => navigate(`/product/${item.productId}`)}>
             <div className="order-info">
               <h4>{item.name}</h4>
 
@@ -165,8 +169,11 @@ function OrderDetails() {
             </div>
           </div>
         ))}
+            
+          
 
         {/* ================= TOTAL ================= */}
+      
         <div className="order-total">
           <h3>Total: ₹ {order.total}</h3>
         </div>
@@ -184,6 +191,7 @@ function OrderDetails() {
 
       </div>
     </div>
+    </>
   );
 }
 

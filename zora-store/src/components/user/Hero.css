@@ -4,11 +4,11 @@
   display: flex;
   align-items: center;
   padding: 0 8%;
-  background-image: url("/images/hero-saree.jpg");
+  background-image: url("/images/hero-saree1.jpg");
   background-size: cover;
   background-position: right center;
   background-repeat: no-repeat;
-  background-color: #D9C2B6;
+  background-color: #ebcdd6;
   overflow: hidden;
 }
 
@@ -33,7 +33,7 @@
   font-size: 0.9rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #eeeded;
+  color: #1e1e1e;
   margin-bottom: 12px;
 }
 

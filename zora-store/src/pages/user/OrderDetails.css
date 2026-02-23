@@ -1,215 +1,207 @@
-/* Page background */
+/* ================= PAGE ================= */
+
 .order-details-page {
-  min-height: 100vh;
-  background: #fff7f9;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 16px;
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 20px;
 }
 
 .order-title {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 24px;
   text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  letter-spacing: 0.5px;
 }
 
-/* Main card */
+/* ================= MAIN CARD ================= */
+
 .order-card {
-  width: 100%;
-  max-width: 700px;
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 28px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* Order meta */
-.order-meta {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  margin-bottom: 24px;
-  font-size: 14px;
-  color: #444;
-}
-
-/* ===== ORDER ITEMS ===== */
-.order-item {
-  background: #fff;
-  border-radius: 14px;
-  padding: 18px 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-}
-
-/* Item info */
-.order-info h4 {
-  margin: 0 0 8px;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-/* Price row */
-.order-price {
-  display: flex;
+  background: #fff6f8;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 6px;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+
+  display: block;   /* 🚨 change from flex to block */
 }
 
-/* Final price */
-.final-price {
-  font-size: 16px;
-  font-weight: 700;
-  color: #000;
-}
+/* ================= META ================= */
 
-/* Original price */
-.original-price {
-  font-size: 14px;
-  color: #999;
-  text-decoration: line-through;
-}
-
-/* Saved text */
-.saved-text {
-  font-size: 13px;
-  color: #e11d48;
-  margin-top: 4px;
-}
-
-/* ===== TOTAL ===== */
-.order-total {
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px dashed #e5e5e5;
-  text-align: right;
-}
-
-.order-total h3 {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-/* ===== ADDRESS ===== */
-.order-address {
-  margin-top: 24px;
-  background: #fff7f9;
-  padding: 18px;
-  border-radius: 14px;
-}
-
-.order-address h3 {
-  margin-bottom: 8px;
-  font-size: 18px;
-}
-
-.order-address p {
-  font-size: 14px;
-  color: #444;
-  margin: 2px 0;
-}
-
-/* Empty text */
-.empty-text {
+.order-meta {
   text-align: center;
-  margin-top: 60px;
-  font-size: 16px;
-  color: #777;
-}
-/* ===== RATE PRODUCT BUTTON ===== */
-
-.rate-product-btn {
-  margin-top: 12px;
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: none;
-  background: linear-gradient(135deg, #7A2E3A, #a94458);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  display: inline-block;
+  margin-bottom: 30px;
+  font-size: 15px;
+  gap: 10px 40px;
+  font-size: 15px;
+  margin-bottom: 40px;
 }
 
-.rate-product-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(122, 46, 58, 0.25);
+.order-meta p {
+  margin: 0;
+  margin-bottom: 8px;
+  color: #444;
 }
 
-.rate-product-btn:active {
-  transform: scale(0.97);
-}
 /* ================= TIMELINE ================= */
 
 .order-timeline {
-  margin-top: 20px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 25px;
+  text-align: center;
+  justify-content: center;
+  gap: 60px;
+  align-items: center;
+  margin: 10px 0 30px 0;
   position: relative;
-  padding-left: 30px;
 }
 
-/* Vertical line */
 .order-timeline::before {
   content: "";
   position: absolute;
-  left: 12px;
-  top: 0;
-  width: 2px;
-  height: 100%;
-  background: #e5e5e5;
+  top: 14px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #eee;
+  z-index: 0;
 }
 
-/* Each step */
 .timeline-step {
+  text-align: center;
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  z-index: 2;
 }
 
-/* Circle */
-.timeline-step .circle {
+.circle {
   width: 14px;
   height: 14px;
   border-radius: 50%;
   background: #ddd;
-  border: 3px solid #fff;
-  position: absolute;
-  left: -30px;
-  transition: 0.3s ease;
+  margin: 0 auto 8px;
 }
 
-/* Label */
-.timeline-step .label {
-  font-size: 14px;
-  color: #777;
-  font-weight: 500;
-}
-
-/* Completed Step */
 .timeline-step.completed .circle {
   background: #7A2E3A;
-  box-shadow: 0 0 0 4px rgba(122, 46, 58, 0.15);
+}
+
+.timeline-step.cancelled .circle {
+  background: #dc2626;
+}
+
+.label {
+  font-size: 14px;
+  color: #777;
 }
 
 .timeline-step.completed .label {
-  color: #222;
-  font-weight: 600;
-}
-
-/* Cancelled Style */
-.timeline-step.cancelled .circle {
-  background: #dc2626;
-  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15);
+  color: #7A2E3A;
+  font-weight: 500;
 }
 
 .timeline-step.cancelled .label {
   color: #dc2626;
+  font-weight: 500;
+}
+
+/* ================= PRODUCTS ================= */
+
+/* PRODUCTS LIST */
+
+.order-item {
+  padding: 18px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+.order-item:hover {
+  background: rgba(122, 46, 58, 0.03);
+}
+
+.order-info h4 {
+  margin: 0 0 6px;
   font-weight: 600;
+  font-size: 16px;
+}
+
+.order-price {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.final-price {
+  font-weight: 600;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 13px;
+}
+
+.saved-text {
+  font-size: 13px;
+  color: #dc2626;
+  margin-top: 4px;
+}
+
+/* ================= RATE BUTTON ================= */
+
+.rate-product-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #7A2E3A;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.rate-product-btn:hover {
+  background: #5e1f29;
+  transform: translateY(-2px);
+}
+
+/* ================= TOTAL ================= */
+
+.order-divider {
+  height: 1px;
+  background: #eaeaea;
+  margin: 25px 0;
+}
+
+.order-total {
+  padding-top: 20px;
+  border-top: 1px solid #eee;   /* subtle line */
+  text-align: left;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ================= ADDRESS ================= */
+
+.order-address {
+  margin-top: 20px;
+  padding: 24px;
+  background: #faf7f8;
+  border-radius: 16px;
+  width: 100%;
+}
+
+.order-address h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.order-address p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
 }

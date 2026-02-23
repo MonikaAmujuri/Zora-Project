@@ -56,6 +56,7 @@ function AdminOrders() {
               <th>User</th>
               <th>Items</th>
               <th>Total</th>
+              <th>Address</th>
               <th>Status</th>
               <th>Cancel Reason</th>
               <th>Date</th>

@@ -116,8 +116,9 @@ function Address() {
             <p>{addr.city} - {addr.pincode}</p>
             <p>{addr.phone}</p>
           </div>
+          
         </label>
-      ))}
+      ))} 
       {/* ADD NEW ADDRESS */}
       <div className="add-address">
         <h3>Add New Address</h3>

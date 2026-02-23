@@ -38,4 +38,26 @@ router.delete("/:id", async (req, res) => {
   res.json({ message: "Address removed" });
 });
 
+/* UPDATE ADDRESS */
+router.put("/:id", async (req, res) => {
+  try {
+    const updated = await Address.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+        street: req.body.street,
+        city: req.body.city,
+        pincode: req.body.pincode,
+        phone: req.body.phone,
+        isDefault: req.body.isDefault,
+      },
+      { new: true }
+    );
+
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ message: "Update failed" });
+  }
+});
+
 export default router;

@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { authFetch } from "../../utils/api";
 import { Link } from "react-router-dom";
 import UserHeader from "../../components/user/UserHeader";
+import "../../components/user/UserHeader.css";
 import "./MyOrders.css";
 
 function MyOrders() {
@@ -87,8 +88,9 @@ function MyOrders() {
         }
     };
     return (
+        <>
+        <UserHeader />
         <div className="my-orders-page">
-            <UserHeader/>
 
     <section className="listing-section">
 
@@ -107,7 +109,7 @@ function MyOrders() {
                 ) : (
                     <div className="orders-list">
                         {orders.map((order) => (
-                            <div className="order-card" key={order._id}>
+                            <div className="myorder-card" key={order._id}>
                                 <div className="order-left">
                                     <p className="order-id">Order #{order._id}</p>
                                     <p className="order-date">
@@ -196,6 +198,7 @@ function MyOrders() {
                 </div>
             )}
         </div>
+        </>
     );
 }
 

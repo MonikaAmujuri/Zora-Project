@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./Profile.css";
@@ -7,11 +7,38 @@ function Profile() {
   const { user, loading, logout, updateUser } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+  if (user?.address) {
+    setStreet(user.address.street || "");
+    setCity(user.address.city || "");
+    setPincode(user.address.pincode || "");
+  }
+}, [user]);
+
+useEffect(() => {
+  const fetchAddresses = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/address/${user._id}`
+      );
+
+      const data = await res.json();
+      setAddresses(data);
+    } catch (err) {
+      console.error("Failed to fetch addresses");
+    }
+  };
+
+  if (user?._id) {
+    fetchAddresses();
+  }
+}, [user]);
+
   const [name, setName] = useState(user?.name || "");
-  const [address, setAddress] = useState(user?.address || "");
-  const [city, setCity] = useState(user?.city || "");
-  const [state, setState] = useState(user?.state || "");
-  const [pincode, setPincode] = useState(user?.pincode || "");
+  const [addresses, setAddresses] = useState([]);
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [pincode, setPincode] = useState("");
   const [message, setMessage] = useState("");
 
   if (loading) return <p>Loading...</p>;
@@ -31,6 +58,11 @@ function Profile() {
           },
           body: JSON.stringify({
             name,
+            address: {
+              street,
+              city,
+              pincode,
+            },
           }),
         }
       );
@@ -65,6 +97,33 @@ function Profile() {
         <label>Phone</label>
         <input type="text" value={user.phone} disabled />
 
+        <h3 style={{ marginTop: "25px" }}>Saved Addresses</h3>
+
+        {addresses.length === 0 ? (
+          <p style={{ color: "#777" }}>No address added yet</p>
+        ) : (
+          <div className="profile-address-list">
+            {addresses.map((addr) => (
+              <div className="profile-address-card" key={addr._id}>
+                <p><strong>{addr.name}</strong></p>
+                <p>{addr.street}</p>
+                <p>{addr.city} - {addr.pincode}</p>
+                <p>{addr.phone}</p>
+
+                {addr.isDefault && (
+                  <span className="default-badge">Default</span>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <button
+          className="manage-address-btn"
+          onClick={() => navigate("/address")}
+        >
+          Manage Addresses
+        </button>
         
         <button className="save-btn" onClick={handleSave}>
           Save Changes

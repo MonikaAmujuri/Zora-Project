@@ -1,9 +1,24 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useEffect} from "react";
 import "./UserNavbar.css";
 
 function UserNavbar() {
   const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+  const handleScroll = () => {
+    const navbar = document.querySelector(".user-navbar");
+    if (window.scrollY > 20) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
   const subcategoryOptions = {
   pattu: [
@@ -42,6 +57,7 @@ function UserNavbar() {
 
   return (
     <nav className="user-navbar">
+      <div className="user-navbar-inner">
       <Link to="/">Home</Link>
 
       {/* ALL COLLECTION DROPDOWN */}
@@ -85,6 +101,7 @@ function UserNavbar() {
       <Link to="/sarees/croptops">Crop Tops</Link>
       <Link to="/video-shopping">Video Shopping</Link>
       <Link to="/contact">Contact</Link>
+      </div>
     </nav>
   );
 }

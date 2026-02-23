@@ -92,6 +92,11 @@ router.put("/update-profile", authMiddleware, async (req, res) => {
     }
 
     user.name = req.body.name || user.name;
+    user.address = {
+      street: req.body.address?.street,
+      city: req.body.address?.city,
+      pincode: req.body.address?.pincode,
+    };
 
     const updatedUser = await user.save();
 
