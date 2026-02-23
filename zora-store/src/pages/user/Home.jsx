@@ -29,6 +29,20 @@ function Home() {
             <p>Fancy Sarees</p>
           </div>
 
+          <div className="category-card" onClick={() => navigate("/sarees/cotton")}>
+            <div className="category-image">
+              <img src="/images/cotton.jpg" alt="Cotton" />
+            </div>
+            <p>Cotton Sarees</p>
+          </div>
+
+          <div className="category-card" onClick={() => navigate("/sarees/work")}>
+            <div className="category-image">
+              <img src="/images/work.jfif" alt="Work Sarees" />
+            </div>
+            <p>Work Sarees</p>
+          </div>
+
           <div className="category-card" onClick={() => navigate("/sarees/dresses")}>
             <div className="category-image">
               <img src="/images/dresses.jpg" alt="Dresses" />
